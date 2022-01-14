@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "skyNetApp", "skyNetApp\skyNetApp.csproj", "{43AB0129-E87F-4687-B228-1E3F29D29C4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{F2D716ED-7BD5-405D-9253-9C271D0EDBB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{56EDE3CF-1B32-4887-A8DE-E27EBC2C55DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43AB0129-E87F-4687-B228-1E3F29D29C4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43AB0129-E87F-4687-B228-1E3F29D29C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43AB0129-E87F-4687-B228-1E3F29D29C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43AB0129-E87F-4687-B228-1E3F29D29C4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2D716ED-7BD5-405D-9253-9C271D0EDBB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2D716ED-7BD5-405D-9253-9C271D0EDBB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2D716ED-7BD5-405D-9253-9C271D0EDBB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2D716ED-7BD5-405D-9253-9C271D0EDBB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56EDE3CF-1B32-4887-A8DE-E27EBC2C55DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56EDE3CF-1B32-4887-A8DE-E27EBC2C55DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56EDE3CF-1B32-4887-A8DE-E27EBC2C55DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56EDE3CF-1B32-4887-A8DE-E27EBC2C55DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D5E2069C-CE44-4ACC-BFFD-A5A5B684933B}
+	EndGlobalSection
+EndGlobal
