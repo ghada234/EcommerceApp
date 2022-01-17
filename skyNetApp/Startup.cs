@@ -1,20 +1,12 @@
-using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+using skyNetApp.Extentions;
 using skyNetApp.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using skyNetApp.MiddleWare;
 
 namespace skyNetApp
 {
@@ -35,37 +27,46 @@ namespace skyNetApp
         {
             //addscoped life until  http request finish or periode of it is the htttp request 
 
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));
-
             //add auto mapper  ===> profile assembly iss location of profile mapping
             services.AddAutoMapper(typeof(MappingProfile));
 
 
             services.AddControllers();
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "skyNetApp", Version = "v1" });
-            });
+
+            //two extention methods
+            services.AddServices();
+            services.AddSwaggerDocumentaion();
+            //
+            //overide the behaviour of [ApiController ]attrubitue to get valifdation errors list as this attrbuite is responsible for get the value of parameter rout
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "skyNetApp v1"));
-            }
+            //use excetoption middle ware
+            app.UseMiddleware<ExceptionMiddleWare>();
+            
+            //if (env.IsDevelopment())
+            //{
+            //    //app.UseDeveloperExceptionPage();
+                
+            //}
 
+            // when send request to apu . if don't  have end point that match particular request so rexecute it to the path errors/{code}
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseStaticFiles();
 
             app.UseAuthorization();
+            //extention method
+            app.UserSwaggerDocumentation();
+            //
 
             app.UseEndpoints(endpoints =>
             {

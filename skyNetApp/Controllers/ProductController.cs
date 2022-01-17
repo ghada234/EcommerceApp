@@ -3,9 +3,11 @@ using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using skyNetApp.Dto;
+using skyNetApp.Errors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +16,8 @@ using System.Threading.Tasks;
 namespace skyNetApp.Controllers
 {
 
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    
+    public class ProductController : BaseApiController
     {
         private readonly IGenericRepository<Product> _productRepo;
         private readonly IGenericRepository<ProductType> _productTypeRepo;
@@ -62,12 +63,22 @@ namespace skyNetApp.Controllers
 
         }
 
+
         [HttpGet("{id}")]
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        //to get 404 response  with type apiresponse
+        
+        [ProducesResponseType(typeof(ApiResponse),StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductsToReturnDto>> GetProduct(int id)
         {
             //var product = await _conext.Products.FirstOrDefaultAsync(x => x.Id == id);
             var spec = new ProductWithTypeAndBrandSpec(id);
             var product = await _productRepo.GetEntityWithSpecification(spec);
+            //we till swagger if productnot found return 404 error with  api response
+            if (product == null) {
+                return NotFound(new ApiResponse(404));
+            }
             //var producttoreturn = new ProductsToReturnDto {
             //    Id = product.Id,
             //    Name = product.Name,
