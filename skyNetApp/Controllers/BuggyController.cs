@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using skyNetApp.Errors;
 using System;
@@ -16,6 +17,17 @@ namespace skyNetApp.Controllers
         {
             _context = context;
         }
+
+
+
+
+        [Authorize]
+        [HttpGet("testauth")]
+       
+        public ActionResult<string> testAuth() {
+            return "secret stuff";
+        }
+
 
         [HttpGet("notfound")]
 

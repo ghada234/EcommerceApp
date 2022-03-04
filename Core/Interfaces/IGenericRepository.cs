@@ -18,5 +18,16 @@ namespace Core.Interfaces
         Task<T> GetEntityWithSpecification(ISpecification<T> spec);
 
         Task<IReadOnlyList<T>> GetListWithSpecification(ISpecification<T> spec);
+
+        //get the count of data before paginations
+
+        Task<int> CountAsync(ISpecification<T> spec);
+
+        //add delete update
+        void Add(T entity);
+        void update(T entity);
+        void Delete (T entity);
+
+
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using skyNetApp.Dto;
 using skyNetApp.Errors;
+using skyNetApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,14 +39,16 @@ namespace skyNetApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductsToReturnDto>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductsToReturnDto>>> GetProducts([FromQuery]ProductsParams productsparams )
         {
 
             //var products = await _productRepo.GetAllListAsync();
             //return Ok(products);
-            var spec = new ProductWithTypeAndBrandSpec();
+            var spec = new ProductWithTypeAndBrandSpec(productsparams);
+            var specCount = new ProductWithFilterToCountSpec(productsparams);
 
             var Products = await _productRepo.GetListWithSpecification(spec);
+            var ProductsCount = await _productRepo.CountAsync(specCount);
 
             //select loop throught list and change it to new shape
             //return Products.Select(product => new ProductsToReturnDto {
@@ -58,8 +61,8 @@ namespace skyNetApp.Controllers
             //    PicureUrl = product.PicureUrl,
 
             //}).ToList();
-            var productToReturn = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductsToReturnDto>>(Products);
-            return Ok(productToReturn);
+            var productData = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductsToReturnDto>>(Products);
+            return Ok(new Pagination<ProductsToReturnDto>(productsparams.PageIndex,productsparams.PageSize,ProductsCount,productData));
 
         }
 

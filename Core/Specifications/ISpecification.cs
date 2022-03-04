@@ -12,5 +12,17 @@ namespace Core.Specifications
         Expression<Func<T, bool>> Citeria { get; }
        List<Expression<Func<T,object>>> Include { get; }
 
+        Expression<Func<T,object>> OrderBy { get; }
+
+        Expression<Func<T, object>> OrderByDesc { get; }
+
+
+        //for pagination props
+        int Skip { get; set; }
+        int Take { get; set; }
+
+        bool IsPagedEnable{ get; set; }
+
+
     }
 }

@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <Compile Include="Helpers\MappingProfile.cs" />
+    <Compile Include="Helpers\OrderUrlResolver.cs" />
+    <Compile Include="Helpers\Pagination.cs" />
     <Compile Include="Helpers\ProductUrlResolver.cs" />
   </ItemGroup>
 

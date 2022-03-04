@@ -1,4 +1,10 @@
+
+using Core.Entities.Identity;
+
+using Microsoft.AspNetCore.Identity;
 using Infrastructure.Data;
+using Infrastructure.Identity;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,12 +31,23 @@ namespace skyNetApp
                 var LoggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try
                 {
+                    //storeDbContext
 
                     var dbContext = services.GetRequiredService<StoreContext>();
                     //mogration and create database if itisn't exist
                     await dbContext.Database.MigrateAsync();
                     //get seeder data
                     await StoreContextSeed.SeedAsync(dbContext, LoggerFactory);
+
+
+                    /////identity dbcontext
+                    ///error in appuser
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                    var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+                    await identityContext.Database.MigrateAsync();
+                    await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
+
+                   
                 }
                 catch (Exception ex)
                 {

@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Entities.OrderAggregatte;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -67,6 +68,22 @@ namespace Infrastructure.Data
                     await context.SaveChangesAsync();
 
                 }
+
+                if (!context.DeliveryMethods.Any())
+                {
+                    //the code executte in programs.cs in skynet project so we have to enter infrasttrucure project
+                    var DeliveryMethodsData = File.ReadAllText("../Infrastructure/Data/SeedData/delivery.json");
+                    var DeliveryMethodList= JsonSerializer.Deserialize<List<DeliveryMethod>>(DeliveryMethodsData);
+                    foreach (var DeliveryMethod in DeliveryMethodList)
+                    {
+                        context.DeliveryMethods.Add(DeliveryMethod);
+                    }
+                    //save changes in database
+
+                    await context.SaveChangesAsync();
+
+                }
+
 
 
 

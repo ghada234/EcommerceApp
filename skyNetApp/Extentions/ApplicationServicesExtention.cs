@@ -1,5 +1,7 @@
-﻿using Core.Interfaces;
+﻿using Core.Entities;
+using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using skyNetApp.Errors;
@@ -19,9 +21,15 @@ namespace skyNetApp.Extentions
 
 
         public static IServiceCollection AddServices(this IServiceCollection services) {
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IorderService, OrderService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IProductRepository, ProductRepository>();
+
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+
+            services.AddScoped<IBasketRepository, BasketRepository>();
             //apibehaviouroptions is used to configure behaviour of types annotated with Apicontroller attrubitue
             services.Configure<ApiBehaviorOptions>(op => {
                 op.InvalidModelStateResponseFactory = ActionContext =>
