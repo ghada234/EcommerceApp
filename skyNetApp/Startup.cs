@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using skyNetApp.Extentions;
 using skyNetApp.Helpers;
 using skyNetApp.MiddleWare;
 using StackExchange.Redis;
+using System.IO;
 
 namespace skyNetApp
 {
@@ -35,13 +37,13 @@ namespace skyNetApp
 
 
             services.AddControllers();
-
-            services.AddDbContext<StoreContext>(x => x.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<StoreContext>(x => x.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<StoreContext>(x => x.UseNpgsql(_configuration.GetConnectionString("DefaultConnection")));
 
             //new dattabase for identity
             services.AddDbContext<AppIdentityDbContext>(x =>
             {
-                x.UseSqlite(_configuration.GetConnectionString("IdentityConnection"));
+                x.UseNpgsql(_configuration.GetConnectionString("IdentityConnection"));
                 }
             );
                 //redis configurattio
@@ -57,10 +59,11 @@ namespace skyNetApp
             services.AddServices();
             services.AddIdentityServices(_configuration);
             services.AddSwaggerDocumentaion();
+            
 
             services.AddCors(opt=>opt.AddPolicy("corsPolicy",Policy=> {
-                Policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://localhost:4200");
-            
+                Policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+
             }));
             //services.AddIdentityCore<AppUser>();
          
@@ -88,7 +91,15 @@ namespace skyNetApp
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            //serve by default any thing inside wwwroot folder
             app.UseStaticFiles();
+            //use  content instead of wwwroot folder
+
+            app.UseStaticFiles(new StaticFileOptions{
+             FileProvider=new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"content")),
+             RequestPath="/content",
+            
+            });
             app.UseCors("corsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
@@ -99,6 +110,10 @@ namespace skyNetApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                //add the angular content to endpoints
+                //action ,//controllername
+                //when request arrive if it could'tt find end point it will execute the controller fallback with action method Index
+                endpoints.MapFallbackToController("Index", "FallBack");
             });
         }
     }

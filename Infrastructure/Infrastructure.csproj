@@ -8,7 +8,9 @@
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.0" />
 		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.0.0" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.0" />
 		<PackageReference Include="StackExchange.Redis" Version="2.2.88" />
+		<PackageReference Include="Stripe.net" Version="39.95.0" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.0.0" />
 	</ItemGroup>
 

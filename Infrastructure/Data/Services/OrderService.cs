@@ -52,7 +52,18 @@ namespace Infrastructure.Data.Services
             var delieryMethod = await _unitofwork.Repository<DeliveryMethod>().GetByIdAsync(DeliveryMethodId);
             //calculate subtotal
             var subTotal = orderItems.Sum(oi => oi.Price * oi.Quantity);
-            var order = new Order(orderItems, BuyerEmail, ShippingAddress, delieryMethod, subTotal);
+
+            //check if order exist or not using paymnetinentid
+            //.where(o=>o.paymentIntentId==paymenintentid).firstordefaultAsync()
+            var spec = new GetOrderWithPaymnetIntentIdSpecifications();
+            var OrderExist = await _unitofwork.Repository<Order>().GetEntityWithSpecification(spec);
+            if (OrderExist!=null) {
+                // we delete order if we do order before and payment faildand we come to creatte order again
+                _unitofwork.Repository<Order>().Delete(OrderExist);
+            }
+
+
+            var order = new Order(orderItems, BuyerEmail, ShippingAddress, delieryMethod, subTotal,basket.PaymentIntentId);
             //create order
             //add order to oredr table
             _unitofwork.Repository<Order>().Add(order);
@@ -63,7 +74,8 @@ namespace Infrastructure.Data.Services
                 return null;
             }
             //delete basket when make create order i don't need it any more
-            await _basketrepo.DeleteCustomerBasket(BasketId);
+            //we will delete basket after payment success not order success
+            //await _basketrepo.DeleteCustomerBasket(BasketId);
             //return oredr
             return order;
         }

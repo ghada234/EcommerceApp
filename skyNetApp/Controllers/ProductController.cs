@@ -38,6 +38,7 @@ namespace skyNetApp.Controllers
             _mapper = mapper;
         }
 
+        [Cashed(600)]
         [HttpGet]
         public async Task<ActionResult<Pagination<ProductsToReturnDto>>> GetProducts([FromQuery]ProductsParams productsparams )
         {
@@ -66,6 +67,7 @@ namespace skyNetApp.Controllers
 
         }
 
+        [Cashed(600)]
 
         [HttpGet("{id}")]
 
@@ -100,6 +102,7 @@ namespace skyNetApp.Controllers
         }
         //
         //get brands
+        [Cashed(600)]
         [HttpGet("brands")]
 
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> getProductBrands()
@@ -113,7 +116,7 @@ namespace skyNetApp.Controllers
 
         //
         //get types
-
+        [Cashed(600)]
         [HttpGet("types")]
 
         public async Task<ActionResult<IReadOnlyList<ProductType>>> getProductTypes()

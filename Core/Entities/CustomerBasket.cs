@@ -26,5 +26,17 @@ namespace Core.Entities
         public List<BasketItems> items { get; set; } = new List<BasketItems>();
 
 
+        //deliverymethod will be optional becaue it will be when check out and before it thereisn't delivery method
+        public int? DeliveryMethodId { get; set; }
+
+        //
+        public string PaymentIntentId { get; set; }
+
+        //user can confirm the paymentintent with clientsecret
+        public string ClientSecret { get; set; }
+
+        public decimal ShippingPrice { get; set; }
+
+
     }
 }

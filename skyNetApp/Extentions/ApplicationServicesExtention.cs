@@ -21,9 +21,13 @@ namespace skyNetApp.Extentions
 
 
         public static IServiceCollection AddServices(this IServiceCollection services) {
+            //we want service when applicattion strart and sharEd to every request
+
+            services.AddSingleton<IResponeCacheService, ResponseCashServiceL>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IorderService, OrderService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IPaymentService, PaymentService>();
 
             services.AddScoped<IProductRepository, ProductRepository>();
 

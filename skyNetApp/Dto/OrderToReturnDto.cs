@@ -18,9 +18,10 @@ namespace skyNetApp.Dto
         public string DeliveryMethod { get; set; }
         public IReadOnlyList<OrderItemDto> OrderItems { get; set; }
         public string Status { get; set; }
-        public decimal TotalPrice { get; set; }
+     
         public decimal SubTotal { get; set; }
-       
+        
+
 
 
     }

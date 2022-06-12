@@ -33,10 +33,14 @@ namespace skyNetApp.Helpers
             //specific adddress of address in order aggregate
             CreateMap<AddressDto, Core.Entities.OrderAggregatte.Address>();
 
-            CreateMap<Order, OrderToReturnDto>().ForMember(dest => dest.DeliveryMethod, opt => opt.MapFrom(src => src.DeliveryMethod.ShortName))
-                                                .ForMember(dest => dest.ShippingPrice, opt => opt.MapFrom(src => src.DeliveryMethod.Price))
-                                                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.GetTotal()));
-
+            //CreateMap<Order, OrderToReturnDto>().ForMember(dest => dest.DeliveryMethod, opt => opt.MapFrom(src => src.DeliveryMethod.ShortName))
+            //                                    .ForMember(dest => dest.ShippingPrice, opt => opt.MapFrom(src => src.DeliveryMethod.Price))
+            //                                    .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.GetTotal()));
+            CreateMap<Order, OrderToReturnDto>().PreserveReferences()
+                 .ForMember(dest => dest.DeliveryMethod, opt => opt.MapFrom(src => src.DeliveryMethod.ShortName))
+                                        .ForMember(dest => dest.ShippingPrice, opt => opt.MapFrom(src => src.DeliveryMethod.Price));
+                                      
+                                       //.ForMember(dest => dest.Total, opt => opt.MapFrom(src => src.GetTotal())); 
 
 
             CreateMap<OrderItem, OrderItemDto>().ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ItemOrdered.ProductItemId))

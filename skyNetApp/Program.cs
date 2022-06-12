@@ -33,11 +33,11 @@ namespace skyNetApp
                 {
                     //storeDbContext
 
-                    var dbContext = services.GetRequiredService<StoreContext>();
+                    var context = services.GetRequiredService<StoreContext>();
                     //mogration and create database if itisn't exist
-                    await dbContext.Database.MigrateAsync();
+                    await context.Database.MigrateAsync();
                     //get seeder data
-                    await StoreContextSeed.SeedAsync(dbContext, LoggerFactory);
+                   await StoreContextSeed.SeedAsync(context);
 
 
                     /////identity dbcontext

@@ -55,8 +55,8 @@ namespace skyNetApp.Controllers
         public async Task<ActionResult<IReadOnlyList<OrderToReturnDto>>> GetOrdersForUser()
         {
             var email = HttpContext.User.FindFirstValue(ClaimTypes.Email);
-            var Orders = await _orderservice.GetOrdersForUserAsync(email);
-            var OrdersoReturn = _mapper.Map<IReadOnlyList<Order>, IReadOnlyList<OrderToReturnDto>>(Orders);
+            var orders = await _orderservice.GetOrdersForUserAsync(email);
+            var OrdersoReturn = _mapper.Map<IReadOnlyList<Order>, IReadOnlyList<OrderToReturnDto>>(orders);
             return Ok(OrdersoReturn);
         }
         //get specific order for user

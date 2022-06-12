@@ -14,11 +14,11 @@ namespace Infrastructure.Data
    public class StoreContextSeed
     {
 
-        public static async Task SeedAsync(StoreContext context, ILoggerFactory loggerFactory)
+        public static async Task SeedAsync(StoreContext context)
         {
 
-            try
-            {
+           
+      
                 if (!context.ProductBrands.Any())
                 {
                     //the code executte in programs.cs in skynet project so we have to enter infrasttrucure project
@@ -87,17 +87,17 @@ namespace Infrastructure.Data
 
 
 
-            }
+  
 
-            catch (Exception ex)
-            {
+            //catch (Exception ex)
+            //{
 
-                //create newilooger instance
-                var ILogger = loggerFactory.CreateLogger<StoreContextSeed>();
+            //    //create newilooger instance
+            //    //var ILogger = loggerFactory.CreateLogger<StoreContextSeed>();
 
-                ILogger.LogError(ex.Message);
+            //    ILogger.LogError(ex.Message);
 
-            }
+            //}
         }
     }
 }
